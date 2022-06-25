@@ -1,9 +1,12 @@
 import React from "react";
+import { useProducts } from "../../apis/Querys/useProducts/useProducts";
 import * as S from "./style";
 
-interface HomeProps {}
+const Home: React.FC = () => {
+  const { data, isFetching, isLoading } = useProducts();
 
-const Home: React.FC<HomeProps> = (props) => {
+  if (isLoading) return <div>Loading</div>;
+
   return <S.Wrappwe>Home</S.Wrappwe>;
 };
 
