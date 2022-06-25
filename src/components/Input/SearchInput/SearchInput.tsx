@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { Input } from "../../../pages/Home/home";
 import * as S from "./style";
 
 interface SearchInputProps extends HTMLAttributes<HTMLInputElement> {
