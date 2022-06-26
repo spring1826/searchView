@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useClubs } from "../../apis/Querys/useClubs/useClubs";
+import { Club } from "../../components/Club/Club";
+import { ClubType } from "../../types/ClubType";
 import { SearchHeader } from "./components/SearchHeader/SearchHeader";
 import * as S from "./style";
 
@@ -20,13 +22,18 @@ const Home: React.FC = () => {
     formState: { errors },
   } = useForm<Input>();
   const { data, isFetching, isLoading } = useClubs();
-  console.log(data);
+  // console.log(data);
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading || !data) return <div>Loading</div>;
 
   return (
     <S.Wrapper>
       <SearchHeader register={register} />
+      <S.Container>
+        {data.pages[0].data.map((data: ClubType, idx: number) => {
+          return <Club key={idx} data={data} />;
+        })}
+      </S.Container>
     </S.Wrapper>
   );
 };
