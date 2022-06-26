@@ -13,6 +13,10 @@ export const Wrapper = styled.div`
     overflow: hidden;
     padding-right: 20px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const Container = styled.div`
@@ -32,5 +36,20 @@ export const Container = styled.div`
 
   .search {
     margin-left: 10px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px 16px;
+
+    .reset_button,
+    .dropdown {
+      display: none;
+    }
+
+    .search {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 `;
