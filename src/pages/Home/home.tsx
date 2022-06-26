@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useClubs } from "../../apis/Querys/useClubs/useClubs";
 import { Club } from "../../components/Club/Club";
 import { ClubType } from "../../types/ClubType";
@@ -15,6 +16,7 @@ export type Input = {
 };
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     watch,
@@ -22,7 +24,7 @@ const Home: React.FC = () => {
     formState: { errors },
   } = useForm<Input>();
   const { data, isFetching, isLoading } = useClubs();
-  // console.log(data);
+  console.log(data);
 
   if (isLoading || !data) return <div>Loading</div>;
 
@@ -31,7 +33,13 @@ const Home: React.FC = () => {
       <SearchHeader register={register} />
       <S.Container>
         {data.pages[0].data.map((data: ClubType, idx: number) => {
-          return <Club key={idx} data={data} />;
+          return (
+            <Club
+              key={idx}
+              data={data}
+              onClick={() => navigate(`/${data.club.id}`)}
+            />
+          );
         })}
       </S.Container>
     </S.Wrapper>

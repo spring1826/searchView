@@ -5,11 +5,12 @@ import * as S from "./style";
 
 interface ClubProps extends HTMLAttributes<HTMLDivElement> {
   data: ClubType;
+  onClick: () => void;
 }
 
 export const Club: React.FC<ClubProps> = (props) => {
   return (
-    <S.Wrapper>
+    <S.Wrapper onClick={props.onClick}>
       <S.ImageContainer>
         <Image src={props.data.club.coverUrl} />
         <div className="deadline_imminent">마감임박</div>
