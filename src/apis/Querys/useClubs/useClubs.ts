@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "react-query";
-import { getProductsApi } from "../../Fetchs/GetProducts/GetProducts";
+import { getClibsApi } from "../../Fetchs/GetClubs/GetClubs";
 
-export const useProducts = () => {
+export const useClubs = () => {
   const {
     data,
     error,
@@ -11,7 +11,7 @@ export const useProducts = () => {
     isFetchingNextPage,
     status,
     isLoading,
-  } = useInfiniteQuery("projects", getProductsApi, {
+  } = useInfiniteQuery("projects", getClibsApi, {
     getNextPageParam: (currentPage: any) => {
       const nextPage = currentPage.page + 1;
       return nextPage > currentPage.total_pages ? null : nextPage;
