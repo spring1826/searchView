@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.select`
+  width: 100px;
   height: 36px;
   padding: 6px 10px;
   color: #ff7900;
