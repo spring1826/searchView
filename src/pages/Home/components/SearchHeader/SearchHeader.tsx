@@ -1,9 +1,12 @@
-import React, { HTMLAttributes, useState } from "react";
+import React, { HTMLAttributes, useContext, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { FILTER_OPTION_LIST } from "../../../../constants/HomeConstant";
 import { Image } from "../../../../components/Image/Image";
 import { SearchInput } from "../../../../components/Input/SearchInput/SearchInput";
 import * as S from "./style";
+import { FilterContext } from "../../../../contexts/filterContext";
+import { useNavigate } from "react-router-dom";
+import { useSearchUrl } from "../../../../hooks/useSearchUrl";
 
 interface SearchHeaderProps extends HTMLAttributes<HTMLDivElement> {
   register: UseFormRegister<any>;
@@ -12,6 +15,10 @@ interface SearchHeaderProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
+  const navigate = useNavigate();
+  const filterContext = useContext(FilterContext);
+  const [options, setOptions] = useState<string[]>([]);
+
   const [focusFilter, setFocusFilter] = useState<{
     title: string;
     options: string[];
@@ -23,6 +30,24 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
     } else {
       setFocusFilter(filter);
     }
+    setOptions([]);
+  };
+
+  // filter context 저장
+  const setFilterOption = () => {
+    if (focusFilter.title === "장소") {
+      filterContext.placeFilter = options;
+    }
+    if (focusFilter.title === "요일") {
+      filterContext.dayFilter = options;
+    }
+    if (focusFilter.title === "클럽유형") {
+      filterContext.typeFilter = options;
+    }
+    if (focusFilter.title === "관심분야") {
+      filterContext.categoryFilter = options;
+    }
+    navigate(`/${useSearchUrl(filterContext)}`);
   };
 
   return (
@@ -53,7 +78,26 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
                 return (
                   <div key={idx}>
                     <label>
-                      <input type={"checkbox"} value={option} />
+                      <input
+                        type={"checkbox"}
+                        value={option}
+                        onClick={(e) => {
+                          const value = e.currentTarget.value;
+                          console.log(0, options.indexOf(value));
+
+                          if (options.indexOf(value) >= 0) {
+                            setOptions(
+                              options.filter(
+                                (option, index) =>
+                                  index !== options.indexOf(value)
+                              )
+                            );
+                          } else {
+                            console.log(2);
+                            setOptions([...options, value]);
+                          }
+                        }}
+                      />
                       {option}
                     </label>
                   </div>
@@ -66,7 +110,7 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
                 >
                   취소
                 </div>
-                <div className="apply_button" onClick={() => {}}>
+                <div className="apply_button" onClick={setFilterOption}>
                   적용
                 </div>
               </div>
