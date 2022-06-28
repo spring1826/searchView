@@ -18,7 +18,9 @@ export const Club: React.FC<ClubProps> = (props) => {
       <S.ContentContainer>
         <S.TitleContainer>
           <div className="title">{props.data.club.name}</div>
-          <div className="leader">{`${props.data.leaders[0].name} 님`}</div>
+          {props.data.leaders[0].name && (
+            <div className="leader">{`${props.data.leaders[0].name} 님`}</div>
+          )}
           <div className="description">{props.data.club.description}</div>
         </S.TitleContainer>
         <S.PlaceContainer>
