@@ -14,7 +14,8 @@ function App() {
         <h1>Welcome!</h1>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/:id" element={<ClubDetail />} />
+          <Route path="/apply" element={<Home />} />
+          <Route path="/club/:id" element={<ClubDetail />} />
         </Routes>
       </Layout>
     </>

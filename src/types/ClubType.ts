@@ -12,3 +12,11 @@ export type ClubType = {
   leaders: { name: string }[];
   partners: { name: string }[];
 };
+
+export type paramType = {
+  searchKeyword?: string;
+  placeFilter?: string;
+  dayFilter?: string;
+  typeFilter?: string;
+  categoryFilter?: string;
+};

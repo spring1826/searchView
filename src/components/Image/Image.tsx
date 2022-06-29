@@ -1,5 +1,4 @@
 import React, { HTMLAttributes } from "react";
-import { UseFormRegister } from "react-hook-form";
 import * as S from "./style";
 
 interface ImageProps extends HTMLAttributes<HTMLImageElement> {

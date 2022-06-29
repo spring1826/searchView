@@ -1,7 +1,8 @@
 import { useInfiniteQuery } from "react-query";
+import { paramType } from "../../../types/ClubType";
 import { getClibsApi } from "../../Fetchs/GetClubs/GetClubs";
 
-export const useClubs = () => {
+export const useClubs = (param?: paramType) => {
   const {
     data,
     error,
@@ -11,7 +12,7 @@ export const useClubs = () => {
     isFetchingNextPage,
     status,
     isLoading,
-  } = useInfiniteQuery("projects", getClibsApi, {
+  } = useInfiniteQuery("clubs", () => getClibsApi(param), {
     getNextPageParam: (currentPage: any) => {
       const nextPage = currentPage.page + 1;
       return nextPage > currentPage.total_pages ? null : nextPage;
