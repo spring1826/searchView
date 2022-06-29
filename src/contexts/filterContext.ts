@@ -8,7 +8,7 @@ export type initFilterContextStateType = {
   categoryFilter: string[];
 };
 
-export const initFilterContextState: initFilterContextStateType = {
+export const initFilterContextState: any = {
   searchKeyword: "",
   placeFilter: [],
   dayFilter: [],

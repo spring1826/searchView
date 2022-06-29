@@ -20,13 +20,18 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
   const [options, setOptions] = useState<string[]>([]);
 
   const [focusFilter, setFocusFilter] = useState<{
+    key: string;
     title: string;
     options: string[];
-  }>({ title: "", options: [] });
+  }>({ key: "", title: "", options: [] });
 
-  const onclickDropdown = (filter: { title: string; options: string[] }) => {
+  const onclickDropdown = (filter: {
+    key: string;
+    title: string;
+    options: string[];
+  }) => {
     if (focusFilter.title === filter.title) {
-      setFocusFilter({ title: "", options: [] });
+      setFocusFilter({ key: "", title: "", options: [] });
     } else {
       setFocusFilter(filter);
     }
@@ -75,15 +80,16 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
           {focusFilter.options.length > 0 && (
             <div className="option_container">
               {focusFilter.options.map((option, idx) => {
+                const isCheckedList: string[] = filterContext[focusFilter.key];
                 return (
                   <div key={idx}>
                     <label>
                       <input
                         type={"checkbox"}
                         value={option}
+                        defaultChecked={isCheckedList.includes(option)}
                         onClick={(e) => {
                           const value = e.currentTarget.value;
-                          console.log(0, options.indexOf(value));
 
                           if (options.indexOf(value) >= 0) {
                             setOptions(
@@ -93,7 +99,6 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
                               )
                             );
                           } else {
-                            console.log(2);
                             setOptions([...options, value]);
                           }
                         }}
@@ -106,7 +111,9 @@ export const SearchHeader: React.FC<SearchHeaderProps> = (props) => {
               <div className="option-button_container">
                 <div
                   className="cancle_button"
-                  onClick={() => setFocusFilter({ title: "", options: [] })}
+                  onClick={() =>
+                    setFocusFilter({ key: "", title: "", options: [] })
+                  }
                 >
                   취소
                 </div>

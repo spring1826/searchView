@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useClubs } from "../../apis/Querys/useClubs/useClubs";
 import { Club } from "../../components/Club/Club";
 import {
   FilterContext,
   initFilterContextState,
 } from "../../contexts/filterContext";
+import { useParamsToFilterContext } from "../../hooks/useParamsToFilterContext";
 import { useSearchUrl } from "../../hooks/useSearchUrl";
 import { ClubType } from "../../types/ClubType";
 import { SearchHeader } from "./components/SearchHeader/SearchHeader";
@@ -26,11 +27,10 @@ const Home: React.FC = () => {
   const {
     register,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<Input>();
 
-  const { data, isFetching, isLoading } = useClubs();
+  const { data, isLoading } = useClubs();
 
   // searchKeyword가 있는 경우
   const handleSearchKeyword = () => {
@@ -49,8 +49,30 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    // url을 확인 후 체크박스 값 적용
-    console.log(filterContext);
+    // url을 확인 후 filterContext 값 적용
+    if (location.search.substring(1)) {
+      const paramsArray = useParamsToFilterContext(
+        location.search.substring(1)
+      );
+
+      paramsArray.map(({ title, value }) => {
+        if (title === "searchKeyword") {
+          filterContext.searchKeyword = value;
+        }
+        if (title === "categoryFilter") {
+          filterContext.categoryFilter = value;
+        }
+        if (title === "dayFilter") {
+          filterContext.dayFilter = value;
+        }
+        if (title === "placeFilter") {
+          filterContext.placeFilter = value;
+        }
+        if (title === "typeFilter") {
+          filterContext.typeFilter = value;
+        }
+      });
+    }
   }, []);
 
   if (isLoading || !data) return <div>Loading</div>;
@@ -70,7 +92,7 @@ const Home: React.FC = () => {
             <Club
               key={idx}
               data={data}
-              onClick={() => navigate(`/${data.club.id}`)}
+              onClick={() => navigate(`/club/${data.club.id}`)}
             />
           );
         })}
